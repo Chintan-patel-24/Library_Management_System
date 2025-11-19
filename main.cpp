@@ -485,3 +485,119 @@ void modifybook()
 		 cout<<"No Book Issued";
 		 
 	 }
+
+ }
+ 
+ }
+ if(found==0)
+ {
+	 cout<<"Student Record Not Exists...";
+	 
+ }
+ getch();
+ fp.close();
+ fp1.close();
+ }
+ 
+ 
+void start()
+{ clrscr();
+gotoxy(35,11);
+cout<<"LIBRARY";
+gotoxy(35,14);
+cout<<"MANAGEMENT";
+gotoxy(35,17);
+cout<<"SYSTEM";
+cout<<" \n  by: Chahat"; 
+getch();
+}
+void adminmenu()
+{
+	clrscr();
+	int ch2;
+	cout<<"\n\n\n\tADMINISTRATOR MENU";
+	cout<<"\n\n\n\t1.CREATE STUDENT RECORD";
+	cout<<"\n\n\n\t2.DISPLAY ALL STUDENT RECORD";
+	cout<<"\n\n\n\t3.DISPLAY SPECIFIC STUDENT RECORD";
+	cout<<"\n\n\n\t4.MODIFY STUDENT RECORD";
+	cout<<"\n\n\n\t5.DELETE STUDENT RECORD";
+	cout<<"\n\n\n\t6.CREATE BOOK";
+	cout<<"\n\n\n\t7.CREATE ALL BOOKS";
+	cout<<"\n\n\n\t8.DISPLAY SPECIFIC BOOK";
+	cout<<"\n\n\n\t9.MODIFY BOOK RECORD";
+	cout<<"\n\n\n\t10.DELETE BOOK RECORD";
+	cout<<"\n\n\n\t11.BACK TO MAIN MENU";
+	cout<<"\n\n\n\tPLEASE ENTER YOUR CHOICE(1-11)";
+	cin>>ch2;
+	switch(ch2)
+	{
+		case 1: writestudent();
+		break;
+		case 2: displayalls();
+		break;
+		case 3: char num[6];
+		clrscr();
+		cout<<"\n\n\t Please enter admission no.";
+		cin>>num;
+		displaysps(num);
+		break;
+		case 4: modifystudent();
+		break;
+		case 5:deletestudent();
+		break;
+		case 6:writebook();
+		break;
+		case 7:displayallb();
+		break;
+		case 8:
+	    {char num[6];
+		clrscr();
+		cout<<"\n\n\tPlease enter book no.";
+		cin>>num;
+		displayspb(num);
+		break;
+		}
+		case 9:modifybook();
+		break;
+		case 10:deletebook();
+		break;
+		case 11:
+		return;
+		default:
+		cout<<"Invalid choice"; 
+	}
+	adminmenu();
+} 
+void main()
+
+{ 
+char ch;
+clrscr();
+start();
+do{
+	clrscr();
+	cout<<"\n\n\n\t MAIN MENU";
+	cout<<"\n\n\n\t1 BOOK ISSUE";
+	cout<<"\n\n\n\t2 BOOK DEPOSIT";
+	cout<<"\n\n\n\t3 ADMINISTRATOR MENU"; 
+	cout<<"\n\n\n\t4 EXIT";
+	cout<<"\n\n\n\t PLEASE SELECT YOUR OPTION(1-4)";  
+	ch=getche();
+	switch(ch)
+	{ case '1': bookissue(); 
+	  break;
+	  case '2': bookdeposit();
+	  break;
+	  case '3': 
+	  adminmenu();
+	  break;
+	  case '4': 
+	  exit(0); 
+	  break;
+	  default:
+	  cout<<"INVALID CHOICE"; 
+	  
+	}         
+}while(ch!=4 ); 
+
+}
