@@ -431,3 +431,57 @@ void modifybook()
  fp1.close();
  }
 
+ 
+ void bookdeposit()
+ {
+	 char sn[6],bn[6];
+	 int found=0,flag=0,day,fine;
+	 clrscr();
+	 cout<<"\n\nBOOK DEPOSIT...";
+	 cout<<"\n\n\tEnter Admission no. Of Student";
+	 cin>>sn;
+	 fp.open("student.dat",ios::in|ios::out);
+	 fp1.open("book.dat",ios::in|ios::out);
+	 while(fp.read((char*)&st,sizeof(student))&& found==0)
+	 {
+		 if(strcmpi(st.retadmno(),sn)==0)//compare admsn no.
+		 {
+			 found=1;
+			 if(st.rettoken()==1)//if book issued
+			 {
+				 while(fp1.read((char*)&bk,sizeof(book))&& flag==0)
+			  {
+				   if(strcmpi(bk.retbno(),st.retstbno())==0)
+		             {
+			          flag=1;
+					  bk.showbook();
+					  cout<<"\n\n Book Deposited In No. Of Days";
+					  cin>>day;
+					  if(day>15)
+					  {
+						  fine=(day-15)*1;
+						  cout<<"\n\n Fine = "<<fine;
+					  }
+					  st.resettoken();
+					 
+					  int pos=-1*sizeof(st);
+					  fp.seekg(pos,ios::cur);
+					  fp.write((char*)&st,sizeof(student));
+					  cout<<"\n\n\tBook Deposited Successfully";
+					  
+					
+			  }
+		 }
+		 if(flag==0)
+		 {
+			 cout<<"Book No. Does Not Exists";
+		 }
+		 
+	 } 
+	 
+	 else
+	 {
+		 
+		 cout<<"No Book Issued";
+		 
+	 }
