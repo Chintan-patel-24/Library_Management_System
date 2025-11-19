@@ -255,3 +255,150 @@ void modifybook()
 	getch();//press key to get out	
 }
 
+
+ void deletestudent()
+ {
+	 char n[6];
+	 int flag=0;
+	 clrscr();
+	 cout<<"\n\n\n\tDELETE STUDENT...";
+	 cout<<"\n\nEnter the Admission no> : ";
+	 cin>>n;
+	 fp.open("student.dat",ios::in|ios::out);
+	 fstream fp2;
+	 fp2.open("temp.dat",ios::out);
+	 fp.seekg(0,ios::beg);
+	 while(fp.read((char*)&st,sizeof(student)))
+	 {
+		 if(strcmpi(st.retadmno(),n)!=0)
+		 {
+			 fp2.write((char*)&st,sizeof(student));
+		 }
+		 else{
+			 flag=1;//student found
+		 }
+	 } 
+	 fp2.close();
+	 fp.close();
+	 remove("student.dat");
+	 rename("temp.dat","student.dat");//data after deletion moved to temp
+	 if(flag==1)
+	 {
+		 cout<<"\n\n\tRecord Deleted..";
+	 }
+	 else
+	 {
+		cout<<"\n\nRecord not Found"; 
+	 }
+	 getch();
+ }
+  void deletebook()
+ {
+	 char n[6];//book no.
+	 int flag=0;
+	 clrscr();
+	 cout<<"\n\n\n\tDELETE BOOK...";
+	 cout<<"\n\nEnter the Book no> : ";
+	 cin>>n;
+	 fp.open("book.dat",ios::in|ios::out);
+	 fstream fp2;//New onject
+	 fp2.open("Temp.dat",ios::out);//temp having data else than that to be deleted
+	 fp.seekg(0,ios::beg);
+	 while(fp.read((char*)&bk,sizeof(book)))
+	 {
+		 if(strcmpi(bk.retbno(),n)!=0)
+		 {
+			 fp2.write((char*)&st,sizeof(book));
+		 }
+		 else{
+			 flag=1;//student found
+		 }
+	 } 
+	 fp2.close();
+	 fp.close();
+	 remove("book.dat");
+	 rename("Temp.dat","book.dat");//data after deletion moved to temp
+	 if(flag==1)
+	 {
+		 cout<<"\n\n\tRecord Deleted... ";
+	 }
+	 else
+	 {
+		cout<<"\n\nRecord not Found"; 
+	 }
+	 getch();
+ }
+ void displayalls()
+ {
+	 clrscr();
+	 fp.open("student.dat",ios::in);//read mode
+	 if(!fp)
+	 {
+		 cout<<"File Could Not Be Open";
+		 getch();
+		 return;//press any key and return
+	 }
+	 cout<<"\n\n\t\tStudent List\n\n";
+	 cout<<"==================================================================\n";
+	 cout<<"\tAdmission No."<<setw(10)<<"Name"<<setw(20)<<"Book Issued\n";
+	 cout<<"==================================================================\n";
+	 while(fp.read((char*)&st,sizeof(student)))
+	 {
+		 st.report();
+	 }
+	 fp.close();
+	 getch();
+ }
+  void displayallb()
+ {
+	 clrscr();
+	 fp.open("book.dat",ios::in);//read mode
+	 if(!fp)
+	 {
+		 cout<<"File Could Not Be Open";
+		 getch();
+		 return;//press any key and return
+	 }
+	 cout<<"\n\n\t\tBook List\n\n";
+	 cout<<"==================================================================\n";
+	 cout<<"\tBook No."<<setw(20)<<"Book Name"<<setw(25)<<"Book Author\n";
+	 cout<<"==================================================================\n";
+	 while(fp.read((char*)&bk,sizeof(book)))
+	 {
+		 bk.report();
+	 }
+	 fp.close();
+	 getch();
+ }
+ void bookissue()
+ {
+	 char sn[6],bn[6];
+	 int found=0,flag=0;
+	 clrscr();
+	 cout<<"\n\nBOOK ISSUE...";
+	 cout<<"\n\n\tEnter Admission no.";
+	 cin>>sn;
+	 fp.open("student.dat",ios::in|ios::out);
+	 fp1.open("book.dat",ios::in|ios::out);
+	 while(fp.read((char*)&st,sizeof(student))&& found==0)
+	 {
+		 if(strcmpi(st.retadmno(),sn)==0)//compare admsn no.
+		 {
+			 found=1;
+			 if(st.rettoken()==0)//if book not issued
+			 {
+				 cout<<"\n\n\tEnter The Book No.";
+			 cin>>bn;
+			  while(fp1.read((char*)&bk,sizeof(book))&& flag==0)
+			  {
+				   if(strcmpi(bk.retbno(),bn)==0)//compare book no.
+		             {
+			          flag=1;
+					  st.addtoken();
+					  st.getstbno(bk.retbno());//pass book no.
+					  int pos=-1*sizeof(st);
+					  fp.seekg(pos,ios::cur);
+					  fp.write((char*)&st,sizeof(student));
+					  cout<<"\n\n\tBook Issued Successfully\n\n Please Note The Book Issue Date On Backside Of Your Book And Return Book Within 15 Days, Otherwise Fine Of 15 Rs Per Day";
+					  
+		
