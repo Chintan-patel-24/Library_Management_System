@@ -399,6 +399,35 @@ void modifybook()
 					  int pos=-1*sizeof(st);
 					  fp.seekg(pos,ios::cur);
 					  fp.write((char*)&st,sizeof(student));
-					  cout<<"\n\n\tBook Issued Successfully\n\n Please Note The Book Issue Date On Backside Of Your Book And Return Book Within 15 Days, Otherwise Fine Of 15 Rs Per Day";
-					  
-		
+					  cout<<"\n\n\tBook Issued Successfully\n\n Please Note The Book Issue Date On Backside Of Your Book And Return Book Within 15 Days, Otherwise Fine Of 15 Rs Per Day";				  
+					  }
+		 }
+		 if(flag==0)
+		 {
+			 cout<<"Book No. Does Not Exists";
+		 }
+		 
+	 } 
+	 
+	 else
+	 {
+		 
+		 cout<<"You Have Not Returned The Last Book";
+		 
+	 }
+	 
+		 
+ 
+	 }
+ 
+ }
+ if(found==0)
+ {
+	 cout<<"Student Record Not Exists...";
+	 
+ }
+ getch();
+ fp.close();
+ fp1.close();
+ }
+
