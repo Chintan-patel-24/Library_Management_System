@@ -120,3 +120,138 @@ class student
 fstream fp,fp1;//object
 book bk;//book class object
 student st;//student class object
+
+void writebook()
+{
+	char ch;
+	fp.open("book.dat",ios::out|ios::app);//write and append data
+	do{
+		clrscr();
+		bk.createbook();
+		fp.write((char*)&bk,sizeof(book));//size of class
+		cout<<"\n\nDo you want to add more record...(y/n?) ";
+		cin>>ch;
+	}while(ch=='y'||ch=='Y');
+	fp.close();
+}
+
+void writestudent()
+{
+	char ch;
+	fp.open("student.dat",ios::out|ios::app);//write and append data
+	do{
+		clrscr();
+		st.createstudent();
+		fp.write((char*)&st,sizeof(student));//size of class
+		cout<<"\n\nDo you want to add more record...(y/n?) ";
+		cin>>ch;
+	}while(ch=='y'||ch=='Y');
+	fp.close();
+}
+ void displayspb(char n[])
+ {
+	 cout<<"\nBOOK DETAILS\n";
+	 int flag=0;//book not found
+	 fp.open("book.dat",ios::in);//read data
+	 while(fp.read((char *)&bk,sizeof(book)))
+	 {
+		 if(strcmpi(bk.retbno(),n)==0)//not case sensitive
+		 {
+			  bk.showbook();
+			  flag=1;
+		 }
+	 }
+	 fp.close();
+	 if(flag==0)//book not found
+	 {
+		 cout<<"\n\nBook does not exist";
+         		 
+	 }
+	 getch();
+}
+ void displaysps(char n[])
+ {
+	 cout<<"\nSTUDENT DETAILS\n";
+	 int flag=0;//student not found
+	 fp.open("student.dat", ios::in);//read data
+	 while(fp.read((char *)&st,sizeof(student)))
+	 {
+		 if(strcmpi(st.retadmno(),n)==0)//not case sensitive
+		 {
+			  st.showstudent();
+			  flag=1;
+		 }
+	 }
+	 fp.close();
+	 if(flag==0)//student not found
+	 {
+		 cout<<"\n\nStudent does not exist";
+         		 
+	 }
+	 getch();
+}
+void modifybook()
+{
+	char n[6];
+	int found=0;//seach book of given data
+	clrscr();
+	cout<<"\n\nMODIFY BOOK RECORD...";
+	cout<<"\n\nEnter the book no. ";
+	cin>>n;
+	fp.open("book.dat",ios::in|ios::out);
+	while(fp.read((char*)&bk,sizeof(book)) && found==0)
+	{
+		if(strcmpi(bk.retbno(),n)==0)
+		{
+			bk.showbook();
+			cout<<"\nEnter the new details book";
+			bk.modifybook();
+			int pos=-1*sizeof(bk);
+			fp.seekp(pos,ios::cur);//back from current position
+			fp.write((char *)&bk,sizeof(book));
+			cout<<"\n\nRecord Updated";
+			found=1;
+		}
+			
+	}
+	fp.close();
+	if(found==0)
+	{
+		cout<<"\n\nRecord Not Found";
+		
+	}
+	getch();//press key to get out	
+}
+ void modifystudent()
+{
+	char n[6];
+	int found=0;//seach book of given data
+	clrscr();
+	cout<<"\n\nMODIFY STUDENT RECORD...";
+	cout<<"\n\nEnter the Admission no. ";
+	cin>>n;
+	fp.open("student.dat",ios::in|ios::out);
+	while(fp.read((char*)&st,sizeof(student)) && found==0)
+	{
+		if(strcmpi(st.retadmno(),n)==0)
+		{
+			st.showstudent();
+			cout<<"\nEnter the new details of student";
+			st.modifystudent();
+			int pos=-1*sizeof(st);
+			fp.seekp(pos,ios::cur);//back from current position
+			fp.write((char *)&st,sizeof(student)); 
+			cout<<"\n\nRecord Updated";
+			found=1;
+		}
+			
+	}
+	fp.close();
+	if(found==0)
+	{
+		cout<<"\n\nRecord Not Found";
+		
+	}
+	getch();//press key to get out	
+}
+
